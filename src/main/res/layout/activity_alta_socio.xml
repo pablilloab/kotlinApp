@@ -5,71 +5,91 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F5F5F5"
     tools:context=".alta_socio">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="164dp"
+        android:layout_gravity="center"
         android:layout_marginTop="40dp"
-        android:text="Datos Personales" />
+        android:text="Datos Personales"
+        android:textSize="24sp"
+        android:textColor="#333333"
+        android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/editText1"
-        android:layout_width="338dp"
-        android:layout_height="44dp"
-        android:layout_below="@id/textView"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="43dp"
-        android:ems="10"
+        android:id="@+id/nombre"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:hint="Nombre"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
         android:inputType="text"
-        android:text="Name" />
+        android:textColor="#000000"
+        android:textColorHint="#888888" />
 
     <EditText
-        android:id="@+id/editText2"
-        android:layout_width="338dp"
-        android:layout_height="44dp"
-        android:layout_below="@id/editText1"
-        android:layout_marginStart="36dp"
+        android:id="@+id/apellido"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:hint="Apellido"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:inputType="text"
+        android:textColor="#000000"
+        android:textColorHint="#888888" />
+
+    <EditText
+        android:id="@+id/DNI"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:hint="DNI"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:inputType="text"
+        android:textColor="#000000"
+        android:textColorHint="#888888" />
+
+    <EditText
+        android:id="@+id/Telefono"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:hint="Teléfono"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:inputType="text"
+        android:textColor="#000000"
+        android:textColorHint="#888888" />
+
+    <EditText
+        android:id="@+id/Email"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:hint="Email"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:inputType="text"
+        android:textColor="#000000"
+        android:textColorHint="#888888" />
+
+    <Button
+        android:id="@+id/btn_alta"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_marginTop="30dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Name" />
-
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="338dp"
-        android:layout_height="44dp"
-        android:layout_below="@id/editText2"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="30dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Name" />
-
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="338dp"
-        android:layout_height="44dp"
-        android:layout_below="@id/editText3"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="30dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Name" />
-
-    <EditText
-        android:id="@+id/editText5"
-        android:layout_width="338dp"
-        android:layout_height="44dp"
-        android:layout_below="@id/editText4"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="30dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Name" />
+        android:background="@drawable/button_background"
+        android:text="Guardar"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:padding="10dp" />
 
 </LinearLayout>
+

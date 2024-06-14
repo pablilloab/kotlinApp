@@ -9,10 +9,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
-    //private lateinit var clubDeportivo: sqlHelper
-    //private lateinit var nombreEditText: EditText
-    //private lateinit var claveEditText: EditText
-    //private lateinit var agregarButton: Button
+    private lateinit var clubDeportivo: sqlHelper
+    private lateinit var nombreEditText: EditText
+    private lateinit var claveEditText: EditText
+    private lateinit var agregarButton: Button
     private lateinit var botonIngresar: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,23 +20,31 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        //clubDeportivo = sqlHelper(this)
-        //nombreEditText = findViewById(R.id.nombre)
-        //claveEditText = findViewById(R.id.clave)
+        clubDeportivo = sqlHelper(this)
+//
+//        clubDeportivo.insertarDato()
+//        clubDeportivo.insertarActividad()
+
+
+        nombreEditText = findViewById(R.id.user)
+        claveEditText = findViewById(R.id.pass)
         //agregarButton = findViewById(R.id.boton)
         botonIngresar = findViewById(R.id.btn_ingresar)
 
-        /*agregarButton.setOnClickListener {
+        botonIngresar.setOnClickListener {
             val nombre = nombreEditText.text.toString()
             val clave = claveEditText.text.toString()
 
-            clubDeportivo.insertarDato(nombre, clave)
-            Toast.makeText(this, "Datos agregados correctamente", Toast.LENGTH_SHORT).show()
-        }*/
-
-        botonIngresar.setOnClickListener {
-            val menu = Intent(this, PantallaMenu::class.java)
-            startActivity(menu)
+            val esValido = clubDeportivo.esUsuarioValido(nombre, clave)
+            if(esValido){
+                botonIngresar.setOnClickListener {
+                    val menu = Intent(this, PantallaMenu::class.java)
+                    startActivity(menu)
+                }
+            }else{
+                Toast.makeText(this, "Datos no válidos", Toast.LENGTH_SHORT).show()
+            }
         }
+
     }
 }

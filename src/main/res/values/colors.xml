@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Nuevo colorAccent -->
+    <color name="colorAccent">#6200EE</color>
+    <!-- Nuevo primaryColor -->
+    <color name="primaryColor">#3700B3</color>
 </resources>
