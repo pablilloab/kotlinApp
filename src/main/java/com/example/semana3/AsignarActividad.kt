@@ -31,6 +31,22 @@ class AsignarActividad : AppCompatActivity() {
         cargarActividades()
         configurarSpinnerEsDiaria()
 
+        spinnerActividades.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                actualizarCosto()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
+        spinnerEsDiaria.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                actualizarCosto()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
         buttonAsignar.setOnClickListener {
             asignarActividad()
         }
@@ -44,7 +60,7 @@ class AsignarActividad : AppCompatActivity() {
     }
 
     private fun configurarSpinnerEsDiaria() {
-        val opciones = arrayOf("Sí", "No")
+        val opciones = arrayOf("Dia", "Mes")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, opciones)
         spinnerEsDiaria.adapter = adapter
     }
@@ -54,7 +70,7 @@ class AsignarActividad : AppCompatActivity() {
         val actividad = sqlHelper.obtenerActividadPorDescripcion(actividadSeleccionada)
         val duracion = editTextDuracion.text.toString().toInt()
         val monto = editTextMonto.text.toString().toFloat()
-        val esDiaria = spinnerEsDiaria.selectedItem.toString() == "Sí"
+        val esDiaria = spinnerEsDiaria.selectedItem.toString() == "Dia"
 
         if (actividad != null) {
             val exito = sqlHelper.asignarActividadASocio(idSocio, actividad["idActividad"]!!.toInt(), duracion, monto, esDiaria)
@@ -66,6 +82,20 @@ class AsignarActividad : AppCompatActivity() {
             }
         } else {
             Toast.makeText(this, "Error al asignar actividad", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun actualizarCosto() {
+        val actividadSeleccionada = spinnerActividades.selectedItem.toString()
+        val actividad = sqlHelper.obtenerActividadPorDescripcion(actividadSeleccionada)
+        if (actividad != null) {
+            val esDiaria = spinnerEsDiaria.selectedItem.toString() == "Dia"
+            val costo = if (esDiaria) {
+                actividad["costo_diario"]
+            } else {
+                actividad["costo_mensual"]
+            }
+            editTextMonto.setText(costo)
         }
     }
 }

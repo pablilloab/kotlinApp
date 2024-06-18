@@ -66,7 +66,6 @@ class sqlHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo.db
         return usuarioExiste
     }
 
-
     //inserta un nuevo socio a la DB.
     fun insertarSocio(nombre: String, apellido: String, dni: String, telefono: String, email: String, carnet: String) {
         val datos = contentValuesOf(
@@ -105,7 +104,7 @@ class sqlHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo.db
         return listaSocios
     }
 
-
+    //funcion que recupera las actividades que existen en el club
     fun listarActividades(): List<Map<String, String>> {
         val actividadesList = mutableListOf<Map<String, String>>()
         val db = this.readableDatabase
@@ -311,6 +310,37 @@ class sqlHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo.db
         db.close()
         return exito
     }
+
+    fun listarSociosConCuotasPendientes(): List<Map<String, String>> {
+        val sociosPendientes = mutableListOf<Map<String, String>>()
+        val db = this.readableDatabase
+        val query = """
+        SELECT DISTINCT s.idsocio, s.nombre, s.apellido, s.dni, s.telefono, s.email, s.carnet
+        FROM socios s
+        JOIN inscripcion i ON s.idsocio = i.idSocio
+        JOIN cuota c ON i.idCuota = c.idCuota
+        WHERE c.pagoRealizado = 0
+    """
+        val cursor: Cursor = db.rawQuery(query, null)
+
+        if (cursor.moveToFirst()) {
+            do {
+                val socio = mapOf(
+                    "idsocio" to cursor.getInt(cursor.getColumnIndex("idsocio")).toString(),
+                    "nombre" to cursor.getString(cursor.getColumnIndex("nombre")),
+                    "apellido" to cursor.getString(cursor.getColumnIndex("apellido")),
+                    "dni" to cursor.getString(cursor.getColumnIndex("dni")),
+                    "telefono" to cursor.getString(cursor.getColumnIndex("telefono")),
+                    "email" to cursor.getString(cursor.getColumnIndex("email")),
+                    "carnet" to cursor.getString(cursor.getColumnIndex("carnet"))
+                )
+                sociosPendientes.add(socio)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return sociosPendientes
+    }
+
 
 }
 

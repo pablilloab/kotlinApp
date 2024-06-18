@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 
 class PantallaMenu : AppCompatActivity() {
     private lateinit var boton_agregar_socio: Button
+    private lateinit var boton_cerrar_sesion: Button
+    private lateinit var boton_socios_pendientes: Button
+    private lateinit var boton_listar_todos: Button
     private lateinit var buscar: EditText
     private lateinit var listadoSociosLayout: LinearLayout
     private lateinit var sqlHelper: sqlHelper
@@ -21,6 +24,9 @@ class PantallaMenu : AppCompatActivity() {
         setContentView(R.layout.activity_pantalla_menu)
 
         boton_agregar_socio = findViewById(R.id.nuevo_socio)
+        boton_cerrar_sesion = findViewById(R.id.button3)
+        boton_socios_pendientes = findViewById(R.id.boton_socios_pendientes)
+        boton_listar_todos = findViewById(R.id.boton_listar_todos)
         buscar = findViewById(R.id.buscar)
         listadoSociosLayout = findViewById(R.id.listado_socios_layout)
         sqlHelper = sqlHelper(this)
@@ -30,7 +36,17 @@ class PantallaMenu : AppCompatActivity() {
             startActivity(agregarSocio)
         }
 
-        //listarSocios()
+        boton_cerrar_sesion.setOnClickListener {
+            finishAffinity() // Cierra la aplicación
+        }
+
+        boton_socios_pendientes.setOnClickListener {
+            listarSociosPendientes()
+        }
+
+        boton_listar_todos.setOnClickListener {
+            listarSocios()
+        }
     }
 
     //cargo los socios llamando a la funcion al momento de
@@ -45,6 +61,31 @@ class PantallaMenu : AppCompatActivity() {
         listadoSociosLayout.removeAllViews()
         val socios = sqlHelper.listarSocios()
         for (socio in socios) {
+            val socioView = TextView(this).apply {
+                text = "${socio["nombre"]} ${socio["apellido"]} - ${socio["dni"]}"
+                textSize = 18f
+                setOnClickListener {
+                    val intent = Intent(this@PantallaMenu, DetalleSocio::class.java).apply {
+                        putExtra("idsocio", socio["idsocio"]!!.toInt())
+                        putExtra("nombre", socio["nombre"])
+                        putExtra("apellido", socio["apellido"])
+                        putExtra("dni", socio["dni"])
+                        putExtra("telefono", socio["telefono"])
+                        putExtra("email", socio["email"])
+                        //putExtra("carnet", socio["carnet"])
+                    }
+                    startActivity(intent)
+                }
+            }
+            listadoSociosLayout.addView(socioView)
+        }
+    }
+
+    //lista socios con cuotas pendientes en el ViewGroup
+    private fun listarSociosPendientes() {
+        listadoSociosLayout.removeAllViews()
+        val sociosPendientes = sqlHelper.listarSociosConCuotasPendientes()
+        for (socio in sociosPendientes) {
             val socioView = TextView(this).apply {
                 text = "${socio["nombre"]} ${socio["apellido"]} - ${socio["dni"]}"
                 textSize = 18f
